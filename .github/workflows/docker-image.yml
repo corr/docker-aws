@@ -24,17 +24,22 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ferdia/aws:$(date +%s)
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KYE }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: eu-west-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/aws:latest
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: createment
+        IMAGE_TAG: spring_boot
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
