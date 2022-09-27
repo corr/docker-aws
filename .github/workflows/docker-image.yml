@@ -36,7 +36,6 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-        REGISTRY_ALIAS: createment-registry-alias
         REPOSITORY: createment
         IMAGE_TAG: spring_boot
       run: |
