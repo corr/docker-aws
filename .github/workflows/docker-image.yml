@@ -40,5 +40,6 @@ jobs:
         REPOSITORY: createment
         IMAGE_TAG: latest
       run: |
-        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+        docker build -t createment .
+        docker tag createment:latest public.ecr.aws/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+        docker push public.ecr.aws/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
