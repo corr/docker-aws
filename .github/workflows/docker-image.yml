@@ -1,5 +1,3 @@
-ines (35 sloc)  972 Bytes
-
 name: Docker Image CI
 
 on:
