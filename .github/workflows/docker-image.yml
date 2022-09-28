@@ -46,6 +46,7 @@ jobs:
       uses: Azure/aci-deploy@v1
       with:
         resource-group: createment-rg
+        dns-name-label: createment-test
         image: ferdia/aws:latest
         name: spring-test
         location: 'east us'
