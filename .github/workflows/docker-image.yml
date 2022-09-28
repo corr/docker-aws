@@ -38,3 +38,14 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/aws:latest
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Deploy to Azure'
+      uses: Azure/aci-deploy@v1
+      with:
+        resource-group: createment-rg
+        image: ferdia/aws:latest
+        name: spring-test
+        location: 'east us
