@@ -48,4 +48,4 @@ jobs:
         resource-group: createment-rg
         image: ferdia/aws:latest
         name: spring-test
-        location: 'east us
+        location: 'east us'
